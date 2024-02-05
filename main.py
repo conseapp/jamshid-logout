@@ -50,7 +50,9 @@ async def logout(user_id: str, token: str = Header(...)):
     # authentication = await is_valid_token(received_token)
     authentication = True
     if authentication is True:
-        await redis_logout(user_id=user_id, token=received_token, redis_credentials=redis_credentials)
-        return JSONResponse(f"user {user_id} logged out successfully", status_code=200)
+        if await redis_logout(user_id=user_id, token=received_token, redis_credentials=redis_credentials):
+            return JSONResponse(f"user {user_id} logged out successfully", status_code=200)
+        else:
+            raise HTTPException(status_code=400, detail=f"logout failed, user {user_id} already logged out")
     else:
         raise HTTPException(status_code=401, detail="Invalid token")
