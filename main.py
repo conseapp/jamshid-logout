@@ -4,7 +4,6 @@ from fastapi.responses import JSONResponse
 from utils.redis import logout as redis_logout
 from utils.common import is_valid_token
 from dotenv import load_dotenv
-import logging
 import requests
 import os
 
@@ -50,8 +49,13 @@ async def logout(user_id: str, token: str = Header(...)):
     # authentication = await is_valid_token(received_token)
     authentication = True
     if authentication is True:
-        await redis_logout(user_id=user_id, token=received_token, redis_credentials=redis_credentials)
-        return JSONResponse(f"user {user_id} logged out successfully", status_code=200)
+        result = await redis_logout(user_id=user_id, token=received_token, redis_credentials=redis_credentials)
+        if result == "done":
+            return JSONResponse(f"user {user_id} logged out successfully", status_code=200)
+        elif result == "invalid token":
+            raise HTTPException(status_code=400, detail=f"logout failed, invalid token for user {user_id}")
+        elif result == "invalid user_id":
+            raise HTTPException(status_code=400, detail=f"logout failed, user {user_id} already logged out")
 
     else:
         raise HTTPException(status_code=401, detail="Invalid token")

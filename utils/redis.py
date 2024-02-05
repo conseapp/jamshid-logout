@@ -1,7 +1,8 @@
 from utils.context_manager import RedisConnection
 from utils.common import RedisConnectioKeys
+from utils.config import logger
 from fastapi import HTTPException
-import logging
+
 
 
 async def logout(user_id: str, token: str, redis_credentials: RedisConnectioKeys):
@@ -10,13 +11,13 @@ async def logout(user_id: str, token: str, redis_credentials: RedisConnectioKeys
         if rd.exists(key):
             if rd.get(key) == token:
                 # rd.delete(key)
-                logging.info(f'The key "{key}" has been successfully removed from Redis.')
-                logging.info(f"user {user_id} logged out")
-                return True
+                logger.info(f'The key "{key}" has been successfully removed from Redis.')
+                logger.info(f"user {user_id} logged out")
+                return "done"
             else:
-                logging.error(f"logout failed, invalid token for user {user_id}")
-                raise HTTPException(status_code=400, detail=f"logout failed, invalid token for user {user_id}")
+                logger.error(f"logout failed, invalid token for user {user_id}")
+                return "invalid token"
 
         else:
-            raise HTTPException(status_code=400, detail=f"logout failed, user {user_id} already logged out")
-            logging.error(f"logout failed, user {user_id} already logged out")
+            logger.error(f"logout failed, user {user_id} already logged out")
+            return "invalid user_id"

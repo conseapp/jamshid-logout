@@ -1,5 +1,5 @@
 import redis
-import logging
+from utils.config import logger
 
 
 class RedisConnection:
@@ -19,7 +19,7 @@ class RedisConnection:
 
     def __exit__(self, exc_type, exc_value, traceback):
         if isinstance(exc_value, Exception):
-            logging.warning(f"redis connection failed: {exc_type}")
-            logging.warning(f"redis connection failed message: {exc_value}")
+            logger.warning(f"redis connection failed: {exc_type}")
+            logger.warning(f"redis connection failed message: {exc_value}")
         self.redis_client.close()
         return True
