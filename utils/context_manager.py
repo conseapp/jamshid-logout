@@ -10,13 +10,12 @@ class RedisConnection:
 
     def __enter__(self):
         # Code to set up resources or perform actions before the block
-        try:
-            self.redis_client = redis.StrictRedis(host=self.host, port=self.port, password=self.password,
-                                                  decode_responses=True)
-        except Exception as err:
-            print(err)
-        # if self.redis_client.ping():
-        #     return self.redis_client
+
+        self.redis_client = redis.StrictRedis(host=self.host, port=self.port, password=self.password,
+                                              decode_responses=True)
+
+        if self.redis_client.ping():
+            return self.redis_client
 
     def __exit__(self, exc_type, exc_value, traceback):
         if isinstance(exc_value, Exception):
