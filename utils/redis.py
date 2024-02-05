@@ -4,13 +4,12 @@ from utils.config import logger
 from fastapi import HTTPException
 
 
-
 async def logout(user_id: str, token: str, redis_credentials: RedisConnectioKeys):
     with RedisConnection(**redis_credentials, retries=3) as rd:
         key = f"jwt-{user_id}"
         if rd.exists(key):
             if rd.get(key) == token:
-                # rd.delete(key)
+                rd.delete(key)
                 logger.info(f'The key "{key}" has been successfully removed from Redis.')
                 logger.info(f"user {user_id} logged out")
                 return "done"

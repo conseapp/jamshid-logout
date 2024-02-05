@@ -1,10 +1,10 @@
 import logging
 
-logger = logging.getLogger('jamshid-logout')
+logger = logging.getLogger(__name__)
 file_handler = logging.FileHandler('app.log')
-file_handler.setLevel(logging.INFO)
 
-format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-file_handler.setFormatter(format)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(formatter)
 
 logger.addHandler(file_handler)
+logger.setLevel(logging.INFO)
