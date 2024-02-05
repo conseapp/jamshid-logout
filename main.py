@@ -2,7 +2,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException, Header
 from fastapi.responses import JSONResponse
 from utils.redis import logout as redis_logout
-from utils.common import is_valid_token
+from utils.common import is_valid_token, RedisConnectioKeys
 from dotenv import load_dotenv
 import requests
 import os
@@ -25,10 +25,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-redis_credentials = {
+redis_credentials: RedisConnectioKeys = {
     'host': 'localhost',
-    'port': 6379,
-    'password': os.getenv('REDIS_PASSWORD')
+    'port': '6379',
+    'password': str(os.getenv('REDIS_PASSWORD'))
 }
 
 
@@ -46,8 +46,7 @@ async def logout(user_id: str, token: str = Header(...)):
     except Exception as err:
         return "Invalid Input: " + str(err)
 
-    # authentication = await is_valid_token(received_token)
-    authentication = True
+    authentication = await is_valid_token(received_token)
     if authentication is True:
         result = await redis_logout(user_id=user_id, token=received_token, redis_credentials=redis_credentials)
         if result == "done":
