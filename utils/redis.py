@@ -14,3 +14,6 @@ def logout(user_id: str, token: str, redis_credentials: RedisConnectioKeys):
         else:
             logging.error(f"logout failed, user {user_id} already logged out")
             return False
+
+    # logging.warning(f"redis connection failed: {err}")
+    # raise HTTPException(status_code=400, detail=f"redis connection failed: {err}")
