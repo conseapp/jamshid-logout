@@ -12,13 +12,11 @@ H
 .env,3\c\3c84dcdc6bbe3d7817c49dcdc327b926fea1808a
 X
 (venv/Lib/site-packages/redis/__init__.py,7\1\7156186a6c8d5ac68f86bd9ba6c9568e2cecc011
-9
-	config.py,1\a\1a1b9769344cb239f2e540e1e6ee1efa2d3034ea
 ?
 utils/common.py,1\a\1a5654c7ffabbb1a8ade172b1a79bc33eadaa0e5
 6
 run.sh,3\2\324fcb49f1cf313ebdd7cbda6a71b73727ddd94d
 ?
 utils/config.py,7\d\7d6763dc075e062136b849295192a693f548a228
-=
-utils/app.log,5\6\56c76f380cb21a024692e5480b4675506cb2db93
+9
+	Readme.md,0\c\0c1945d7443c2e154bd3e421c0d438bd4086d8c3
