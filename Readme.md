@@ -15,7 +15,7 @@ api docs
 
 ### roles request path
 ```console
-https://logout.api.jamshid.app/{user_id}
+https://logout.api.jamshid.app/logout?user_id={user_id}
 ```
 
 ### be sure to pass jwt token as "token" in header
